@@ -36,7 +36,7 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          docker login --username mrbraden56 --pasword ${{ secrets.GH_PAT }} ghrc.io
+          docker login --username mrbraden56 --password ${{ secrets.GH_PAT }} ghrc.io
           docker build . --tag ghrc.io/mrbraden56/project-ghrc:latest
           docker push ghrc.io/mrbraden56/project-ghrc:latest
 
