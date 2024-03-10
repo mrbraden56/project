@@ -34,10 +34,18 @@ jobs:
           name: Go-results-${{ matrix.go-version }}
           path: TestResults-${{ matrix.go-version }}.json
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: my-artifact
+          name: go-project
           path: .
+
+      - name: Download Artifiact
+        uses: actions/downloads-artifiact@v4
+        with:
+          name: go-project
+      - name: Test artifiact download
+        run: ls -R
 
       - name: Create Release
         id: create-new-release
@@ -48,15 +56,15 @@ jobs:
           tag_name: ${{github.run_number}}
           release_name: ${{github.run_number}}
 
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{steps.create-new-release.outputs.upload_url}}
-          asset_path: ./site.zip
-          asset_name: project-v${{github.run_number}}.zip
-          asset_content_type: application/zip
+      # - name: Upload Release Asset
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{steps.create-new-release.outputs.upload_url}}
+      #     asset_path: ./site.zip
+      #     asset_name: project-v${{github.run_number}}.zip
+      #     asset_content_type: application/zip
 
 
       - name: Build and Push Docker Image
