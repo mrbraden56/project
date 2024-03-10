@@ -58,6 +58,9 @@ jobs:
           name: macos-project
           path: project
 
+      - name: Make binary executable
+        run: chmod +x project/project
+
       - name: Test Artifact Download
         run: ls -R
 
@@ -84,8 +87,6 @@ jobs:
           asset_path: ./go-project.zip
           asset_name: project-v${{ github.run_number }}.zip
           asset_content_type: application/zip
-
-
       # - name: Build and Push Docker Image
       #   run: |
       #     docker login --username mrbraden56 --password ${{ secrets.GH_PAT }} ghcr.io
