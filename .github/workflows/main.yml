@@ -35,11 +35,14 @@ jobs:
           name: Go-results-${{ matrix.go-version }}
           path: TestResults-${{ matrix.go-version }}.json
 
+      - name: Compile main.go      ##
+        run: go build -o project . #Added this
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: go-project
-          path: .
+          path: project ##changeed this from . to project
 
   release-project:
     name: Release Project
