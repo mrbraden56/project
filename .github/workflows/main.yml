@@ -56,7 +56,7 @@ jobs:
       - name: Archive Project
         uses: thedoctor0/zip-release@master
         with:
-          filename: Go-Project-${{ matrix.go-version }}
+          filename: Go-Project
 
       - name: Create Release
         id: create-new-release
@@ -73,7 +73,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{steps.create-new-release.outputs.upload_url}}
-          asset_path: ./Go-Project-${{ matrix.go-version }}
+          asset_path: ./Go-Project
           asset_name: project-v${{github.run_number}}.zip
           asset_content_type: application/zip
 
