@@ -23,8 +23,8 @@ jobs:
         with:
           go-version: ${{ matrix.go-version }}
 
-      - name: Initialize Go module
-        run: go mod init
+      - name: Check if go.mod exists
+        run: test -f go.mod && echo "go.mod already exists" || go mod init
 
       - name: Install dependencies
         run: go mod tidy
