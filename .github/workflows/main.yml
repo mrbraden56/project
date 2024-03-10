@@ -7,7 +7,8 @@ on:
     branches: ['main']
 
 jobs:
-  build:
+  build-project:
+    name: Test and Build Project
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -40,6 +41,11 @@ jobs:
           name: go-project
           path: .
 
+  release-project:
+    name: Release Project
+    runs-on: ubuntu-latest
+    needs: build-project
+    steps:
       - name: Download Artifiact
         uses: actions/download-artifact@v4
         with:
@@ -48,14 +54,14 @@ jobs:
       - name: Test artifiact download
         run: ls -R
 
-      - name: Create Release
-        id: create-new-release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{github.run_number}}
-          release_name: ${{github.run_number}}
+      # - name: Create Release
+      #   id: create-new-release
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     tag_name: ${{github.run_number}}
+      #     release_name: ${{github.run_number}}
 
       # - name: Upload Release Asset
       #   uses: actions/upload-release-asset@v1
@@ -68,9 +74,9 @@ jobs:
       #     asset_content_type: application/zip
 
 
-      - name: Build and Push Docker Image
-        run: |
-          docker login --username mrbraden56 --password ${{ secrets.GH_PAT }} ghcr.io
-          docker build . --tag ghcr.io/mrbraden56/project-ghcr:latest
-          docker push ghcr.io/mrbraden56/project-ghcr:latest
+      # - name: Build and Push Docker Image
+      #   run: |
+      #     docker login --username mrbraden56 --password ${{ secrets.GH_PAT }} ghcr.io
+      #     docker build . --tag ghcr.io/mrbraden56/project-ghcr:latest
+      #     docker push ghcr.io/mrbraden56/project-ghcr:latest
 
