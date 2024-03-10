@@ -40,14 +40,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: |
-            Changes in this Release
-            - First Change
-            - Second Change
-          draft: false
-          prerelease: false
+          tag_name: ${{github.run_number}}
+          release_name: ${{github.run_number}}
 
       - name: Build and Push Docker Image
         run: |
