@@ -7,13 +7,13 @@ on:
     branches: ['main']
 
 jobs:
+
   build-project:
-    name: Test and Build Project
-    runs-on: ubuntu-latest
+    name: Build for macOS
+    runs-on: macos-latest
     strategy:
       matrix:
-        go-version: [ '1.21.x' ]
-
+        go-version: ['1.21.x']
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -38,33 +38,33 @@ jobs:
           name: Go-results-${{ matrix.go-version }}
           path: TestResults-${{ matrix.go-version }}.json
 
-      - name: Compile main.go      ##
+      - name: Compile for macOS
         run: go build -ldflags="-w -s" -o project .
 
-      - name: Upload Artifact
+      - name: Upload macOS Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: go-project
-          path: project ##changeed this from . to project
+          name: macos-project
+          path: project
 
   release-project:
     name: Release Project
     runs-on: ubuntu-latest
     needs: build-project
     steps:
-      - name: Download Artifiact
+      - name: Download macOS Artifact
         uses: actions/download-artifact@v4
         with:
-          name: go-project
+          name: macos-project
           path: project
-      - name: Make binary executable
-        run: chmod +x project/project
-      - name: Test Artifiact Download
+
+      - name: Test Artifact Download
         run: ls -R
+
       - name: Archive Project
         uses: thedoctor0/zip-release@master
         with:
-          filename: go-project 
+          filename: go-project
 
       - name: Create Release
         id: create-new-release
@@ -72,17 +72,17 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{github.run_number}}
-          release_name: ${{github.run_number}}
+          tag_name: ${{ github.run_number }}
+          release_name: ${{ github.run_number }}
 
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{steps.create-new-release.outputs.upload_url}}
+          upload_url: ${{ steps.create-new-release.outputs.upload_url }}
           asset_path: ./go-project.zip
-          asset_name: project-v${{github.run_number}}.zip
+          asset_name: project-v${{ github.run_number }}.zip
           asset_content_type: application/zip
 
 
