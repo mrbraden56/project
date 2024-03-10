@@ -51,8 +51,12 @@ jobs:
         with:
           name: go-project
           path: .
-      - name: Test artifiact download
+      - name: Test Artifiact Download
         run: ls -R
+      - name: Archive Project
+        uses: thedoctor0/zip-release@master
+        with:
+          filename: go-project.zip
 
       # - name: Create Release
       #   id: create-new-release
