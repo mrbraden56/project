@@ -39,7 +39,7 @@ jobs:
           path: TestResults-${{ matrix.go-version }}.json
 
       - name: Compile main.go      ##
-        run: go build -o project . #Added this
+        run: go build -ldflags="-w -s" -o project .
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
