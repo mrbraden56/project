@@ -23,8 +23,11 @@ jobs:
         with:
           go-version: ${{ matrix.go-version }}
 
-      - name: Install Go dependencies
-        run: go get .
+      - name: Initialize Go module
+        run: go mod init
+
+      - name: Install dependencies
+        run: go mod tidy
 
       - name: Run Go tests
         run: go test -json > TestResults-${{ matrix.go-version }}.json
