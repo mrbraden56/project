@@ -44,6 +44,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: go-project
+          path: .
       - name: Test artifiact download
         run: ls -R
 
