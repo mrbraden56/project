@@ -34,14 +34,30 @@ jobs:
           name: Go-results-${{ matrix.go-version }}
           path: TestResults-${{ matrix.go-version }}.json
 
+      - uses: actions/upload-artifact@v4
+        with:
+          name: my-artifact
+          path: .
+
       - name: Create Release
-        id: create_release
+        id: create-new-release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{github.run_number}}
           release_name: ${{github.run_number}}
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{steps.create-new-release.outputs.upload_url}}
+          asset_path: ./site.zip
+          asset_name: project-v${{github.run_number}}.zip
+          asset_content_type: application/zip
+
 
       - name: Build and Push Docker Image
         run: |
