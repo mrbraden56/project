@@ -79,7 +79,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{env.version}}
-          release_name: ${{version}}
+          release_name: ${{env.version}}
 
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
@@ -88,7 +88,7 @@ jobs:
         with:
           upload_url: ${{ steps.create-new-release.outputs.upload_url }}
           asset_path: ./go-project.zip
-          asset_name: project-v${{version}}.zip
+          asset_name: project-v${{env.version}}.zip
           asset_content_type: application/zip
     
   deploy-to-homebrew:
@@ -97,7 +97,7 @@ jobs:
     needs: release-project
 
     env:
-      release_url: https://github.com/mrbraden56/project/releases/download/${{version}}/project-v${{version}}.zip
+      release_url: https://github.com/mrbraden56/project/releases/download/${{env.version}}/project-v${{env.version}}.zip
 
     steps:
       - name: Checkout, Edit, and Push
@@ -105,7 +105,7 @@ jobs:
           git clone https://github.com/mrbraden56/homebrew-project.git
           cd homebrew-project/Formula
           curl -O ${{ release_url }}
-          shasum -a 256 project-v${{version}}.zip | awk -F"\"" "/sha256/ {gsub(\$2, $1); print}; !/sha256/ {print \$0}" Project.rb > Project.rb
+          shasum -a 256 project-v${{env.version}}.zip | awk -F"\"" "/sha256/ {gsub(\$2, $1); print}; !/sha256/ {print \$0}" Project.rb > Project.rb
           awk -F'"' '/url/ {gsub($2, ${{release_url}}); print}; !/url/ {print $0}' Project.rb > Project.rb
       - name: Upload Project.rb
         uses: actions/upload-artifact@v2
