@@ -97,7 +97,7 @@ jobs:
     needs: release-project
 
     env:
-      release_url: https://github.com/mrbraden56/project/releases/download/${{ env.version }}/project-v${{ env.version }}.zip
+      release_url: https://github.com/mrbraden56/project/releases/download/$version/project-v$version.zip
 
     steps:
       - name: Checkout, Edit, and Push
@@ -105,7 +105,7 @@ jobs:
           git clone https://github.com/mrbraden56/homebrew-project.git
           cd homebrew-project/Formula
           curl -O ${{ env.release_url }}
-          shasum -a 256 project-v${{ env.version }}.zip | awk '
+          shasum -a 256 project-v$version.zip | awk '
           {
             hash=$1
             awk -F"\"" "/url/ {gsub(\$2, \"${{ env.release_url }}\"); print}; !/url/ {print \$0}" Project.rb > Project.rb.tmp
