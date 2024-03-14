@@ -98,7 +98,7 @@ jobs:
 
     env:
       version: 1.0.${{ github.run_number }}
-      release_url: https://github.com/mrbraden56/project/releases/download/${{version}}/project-v${{version}}.zip
+      release_url: https://github.com/mrbraden56/project/releases/download/${{env.version}}/project-v${{env.version}}.zip
 
     steps:
       - name: Checkout, Edit, and Push
