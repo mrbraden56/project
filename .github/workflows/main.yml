@@ -107,7 +107,7 @@ jobs:
           cd homebrew-project/Formula
           curl -O ${{ env.release_url }}
           shasum -a 256 project-v${{env.version}}.zip | awk -F"\"" "/sha256/ {gsub(\$2, $1); print}; !/sha256/ {print \$0}" Project.rb > Project.rb
-          awk -F'"' '/url/ {gsub($2, ${{release_url}}); print}; !/url/ {print $0}' Project.rb > Project.rb
+          awk -F'"' '/url/ {gsub($2, ${{env.release_url}}); print}; !/url/ {print $0}' Project.rb > Project.rb
       - name: Upload Project.rb
         uses: actions/upload-artifact@v2
         with:
