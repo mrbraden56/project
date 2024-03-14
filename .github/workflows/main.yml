@@ -97,7 +97,7 @@ jobs:
     needs: release-project
 
     env:
-      release_url: https://github.com/mrbraden56/project/releases/download/${{env.version}}/project-v${{env.version}}.zip
+      release_url: https://github.com/mrbraden56/project/releases/download/${{version}}/project-v${{version}}.zip
 
     steps:
       - name: Checkout, Edit, and Push
