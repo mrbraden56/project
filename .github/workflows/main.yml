@@ -107,7 +107,7 @@ jobs:
         run: |
           git clone https://github.com/mrbraden56/homebrew-project.git
           cd homebrew-project/Formula
-          curl -O ${{ env.release_url }}
+          curl -L -O ${{ env.release_url }}
 
           awk -F'"' '/url/ {gsub($2, "${{env.release_url}}"); print}; !/url/ {print $0}' Project.rb > url_Project.rb
           mv url_Project.rb Project.rb
