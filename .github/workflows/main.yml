@@ -119,7 +119,7 @@ jobs:
           git config --global user.name "GitHub Actions"
           git commit -a -m "${{ env.CI_COMMIT_MESSAGE }}"
 
-          git push https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/mrbraden56/homebrew-project.git HEAD:main
+          git push https://${{ github.actor }}:${{ secrets.GH_REPO }}@github.com/mrbraden56/homebrew-project.git HEAD:main
 
       - name: Upload Project.rb
         uses: actions/upload-artifact@v2
