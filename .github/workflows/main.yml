@@ -115,8 +115,8 @@ jobs:
           awk -F'"' -v sha_value="$(shasum -a 256 project-v${{ env.version }}.zip | cut -d ' ' -f 1)" '/sha256/ {gsub($2, sha_value); print};!/sha256/ {print $0}' Project.rb > sha_Project.rb
           mv sha_Project.rb Project.rb
 
-          git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
-          git config --global user.email "autobot@users.noreply.github.com"
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
           git commit -a -m "${{ env.CI_COMMIT_MESSAGE }}"
           git push origin main
 
