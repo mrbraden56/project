@@ -106,8 +106,13 @@ jobs:
           git clone https://github.com/mrbraden56/homebrew-project.git
           cd homebrew-project/Formula
           curl -O ${{ env.release_url }}
-          shasum -a 256 project-v${{env.version}}.zip | awk -F"\"" "/sha256/ {hash=$$1; gsub(\$2, hash); print}; !/sha256/ {print \$0}" Project.rb > Project.rb
-          awk -F'"' '/url/ {gsub($2, "${{env.release_url}}"); print}; !/url/ {print $0}' Project.rb > Project.rb
+
+          awk -F'"' '/url/ {gsub($2, "${{env.release_url}}"); print}; !/url/ {print $0}' Project.rb > url_Project.rb
+          mv url_Project.rb Project.rb
+
+          awk -F'"' -v sha_value="$(shasum -a 256 project-v${{ env.version }}.zip | cut -d ' ' -f 1)" '/sha256/ {gsub($2, sha_value); print};!/sha256/ {print $0}' Project.rb > sha_Project.rb
+          mv sha_Project.rb Project.rb
+
       - name: Upload Project.rb
         uses: actions/upload-artifact@v2
         with:
