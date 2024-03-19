@@ -10,14 +10,6 @@ import (
 	"os"
 )
 
-// SS_AZ_DSA_DEV:
-//     driver: '{ODBC Driver 17 for SQL Server}'
-//     server: 'asdbs-de-scus-dsa-dev.database.windows.net'
-//     user: 'dsaOwner'
-//     password: 'Sw97IwLTriji1r'
-//     database: 'db-de-scus-dsa-dev'
-//     conn_str: 'mssql+pyodbc:///?odbc_connect={v_params_str}'
-
 func main() {
 	// Define flags
 	new_connection := flag.Bool("new-connection", false, "Create a new connection")
@@ -27,12 +19,6 @@ func main() {
 	flag.Parse()
 
 	if *new_connection || *nc {
-		var db *sql.DB
-		var server = "asdbs-de-scus-dsa-dev.database.windows.net"
-		var port = 1433
-		var user = "dsaOwner"
-		var password = "Sw97IwLTriji1r"
-		var database = "db-de-scus-dsa-dev"
 
 		// fmt.Println("Please enter server name: ")
 		// fmt.Scan(&server)
